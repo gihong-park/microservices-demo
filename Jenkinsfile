@@ -27,7 +27,7 @@ pipeline{
             def folders = sh(returnStdout: true, script: "ls ./src").split().each
 
             script {
-              folders.each { item -> {
+              folders.each { (item) {
                   def app = docker.build("hongpark/${item}", "./src/${item}")
                   docker.withRegistry('https://registry.hub.docker.com', 'docker-credential') {
                     app.push("${env.BUILD_NUMBER}")
