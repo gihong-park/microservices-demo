@@ -26,7 +26,10 @@ pipeline{
           echo 'Build&Push Image'
 
           script {
-            def folders = sh(returnStdout: true, script: "ls ./src").split().each
+            def folders = []
+            sh(returnStdout: true, script: "ls ./src").split().each {
+              folders << it
+            }
             folders.each { item ->
                 def app = docker.build("hongpark/${item}", "./src/${item}")
                 docker.withRegistry('https://registry.hub.docker.com', 'docker-credential') {
