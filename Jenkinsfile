@@ -21,10 +21,10 @@ pipeline{
       }
       stage('Build Docker Image') {
         agent any
+        def folders = sh(returnStdout: true, script: "ls ./src").split().each
 
         steps {
           echo 'Build&Push Image'
-          def folders = sh(returnStdout: true, script: "ls ./src").split().each
 
           script {
             folders.each { item ->
