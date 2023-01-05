@@ -31,11 +31,19 @@ pipeline{
               folders << it
             }
             folders.each { item ->
+              if (item == "cartservice") {
+                def app = docker.build("hongpark/${item}", "./src/${item}/src")
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-credential') {
+                  app.push("${env.BUILD_NUMBER}")
+                  app.push("latest")
+                }
+              } else {
                 def app = docker.build("hongpark/${item}", "./src/${item}")
                 docker.withRegistry('https://registry.hub.docker.com', 'docker-credential') {
                   app.push("${env.BUILD_NUMBER}")
                   app.push("latest")
                 }
+              }
             }
           }
         }
