@@ -55,7 +55,7 @@ pipeline{
               branch: 'main'
 
           sshagent(credentials: ['git-ssh-credential']) {
-            sh "helm template micro-service . --set images.tag=${env.BUILD_NUMBER} > ./kubernetes-manifests/kubernetes.yaml"
+            sh "helm template micro-service . --namespace micro-cicd --set images.tag=${env.BUILD_NUMBER} > ./kubernetes-manifests/kubernetes.yaml"
             sh "git add kubernetes-manifests/kubernetes.yaml"
             sh "git commit -m '[UPDATE] checkoutservice ${env.BUILD_NUMBER} image versioning'"
             sh "git push git@github.com:gihong-park/helm_manifest.git"
